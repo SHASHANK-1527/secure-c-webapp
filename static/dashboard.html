@@ -2,9 +2,100 @@
 <html>
 <head>
     <title>Dashboard</title>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #000000, #434343);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-card {
+            background: #1e1e2f;
+            padding: 40px;
+            border-radius: 12px;
+            width: 350px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+
+        h2 {
+            color: white;
+        }
+
+        p {
+            color: white;
+        }
+
+        #userEmail {
+            color: #00c6ff;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background: #ff4b5c;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #cc2f3f;
+        }
+    </style>
 </head>
+
 <body>
-    <h2>Welcome to Dashboard</h2>
-    <p>You are logged in.</p>
+
+<div class="auth-card">
+    <h2>Dashboard</h2>
+    <p>Logged in as:</p>
+    <p id="userEmail"></p>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCa4cGM-pHrOk9h3iNX17_5JTzSNJkcMes",
+  authDomain: "auth-13011.firebaseapp.com",
+  projectId: "auth-13011",
+  storageBucket: "auth-13011.firebasestorage.app",
+  messagingSenderId: "786373806095",
+  appId: "1:786373806095:web:ffb55244825ac55421fb7a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "/login";
+  } else {
+    document.getElementById("userEmail").innerText = user.email;
+  }
+});
+
+window.logout = function () {
+  signOut(auth).then(() => {
+    window.location.href = "/login";
+  });
+};
+</script>
+
 </body>
 </html>
