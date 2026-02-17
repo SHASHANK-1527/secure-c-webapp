@@ -1,4 +1,4 @@
 server
 database/users.db
 *.o
-
+*.swp
